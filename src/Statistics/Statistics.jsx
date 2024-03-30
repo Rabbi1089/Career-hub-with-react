@@ -1,9 +1,10 @@
-import React from 'react';
+
 
 const Statistics = () => {
     return (
-        <div>
-            <h1>Statistics</h1>
+        <div className='ml-24 rounded-lg shadow-lg'>
+           
+            <img src="https://i.ibb.co/vmB8c24/coming-soon.jpg" alt="" />
         </div>
     );
 };

@@ -1,15 +1,26 @@
 import { stringify } from "postcss";
 import { useLoaderData, useParams } from "react-router-dom";
+import React from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { saveJobApplication } from "../utility/LocalStroage";
 
 
 const JobDetails = () => {
     const jobs = useLoaderData();
-
     const { id } = useParams();
     const idInt = parseInt(id)
     const job = jobs.find(job => job.id === idInt);
     const { job_description, job_title, job_responsibility, salary } = job
-    console.log(job)
+    //console.log(job)
+
+
+    const handleApplyJob = () => {
+        saveJobApplication(idInt);
+        toast("You have applied job successfully")
+    }
+
+
     return (
         <div>
             <h1 className="text-4xl m-10 p-5">Job details of : {job_title}</h1>
@@ -24,10 +35,15 @@ const JobDetails = () => {
                         <h5><span>job title</span> : {job_title}</h5>
                         <h5 className=" mb-3"><span>salary</span>: {salary}</h5>
                     </div>
-                    <button className="btn btn-primary w-full">Apply now</button>
+                    <div className="">
+                        <button onClick={handleApplyJob} className="btn btn-primary w-full">Apply now</button>
+
+                    </div>
+                    <ToastContainer />
                 </div>
             </div>
         </div>
+
     );
 };
 

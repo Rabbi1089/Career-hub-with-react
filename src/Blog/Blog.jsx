@@ -1,9 +1,7 @@
-import React from 'react';
-
 const Blog = () => {
     return (
-        <div>
-            <h1>Blog Blog Blog</h1>
+        <div className='ml-24 rounded-lg shadow-lg'>
+            <img src="https://i.ibb.co/vmB8c24/coming-soon.jpg" alt="" />
         </div>
     );
 };
