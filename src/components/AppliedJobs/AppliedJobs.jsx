@@ -1,20 +1,37 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { getStroedJobApplication } from '../../utility/LocalStroage';
 import AppliedJob from '../../appliedjob/AppliedJob';
 
 const AppliedJobs = () => {
     const jobs = useLoaderData();
-    const [appliedJob, setAppliedJob] = useState([])
-    const [displayJobs, setDisplayJob] = useState([])
-    console.log('displayJobs job', displayJobs)
+    const [appliedJob, setAppliedJobs] = useState([])
+    const [displayJobs, setDisplayJobs] = useState([])
+    console.log('appliedJob job', appliedJob)
+
+    const handleJobsFilter = filter => {
+
+        if (filter === 'all') {
+            setDisplayJobs(appliedJob);
+        }
+        else if (filter === 'remote') {
+            const remoteJob = appliedJob.filter(jobs => jobs.remote_or_onsite === 'Remote')
+            setDisplayJobs(remoteJob);
+        }
+        else if (filter === 'onsite') {
+            console.log('onsite')
+            const onSiteJob = appliedJob.filter(job => job.remote_or_onsite === 'Onsite')
+            setDisplayJobs(onSiteJob);
+        }
+    }
 
 
     useEffect(() => {
+
         const storedJobId = getStroedJobApplication();
-        //console.log(storedJobId)
+        console.log('storedJobId : ',storedJobId)
         if (jobs.length > 0) {
-            //const appliedJobs = jobs.filter(job => storedJobId.includes(job.id));
+           // const appliedJobs = jobs.filter(job => storedJobId.includes(job.id));
             // console.log(appliedJobs)
 
             // another way to find job
@@ -23,31 +40,14 @@ const AppliedJobs = () => {
             for (const id of storedJobId) {
                 const job = jobs.find(job => job.id === id);
                 if (job) {
-                    jobsApplied.push(job);
+                    jobsApplied.push(job)
                 }
             }
-            setAppliedJob(jobsApplied)
-            setDisplayJob(jobsApplied)
+            console.log('jobsApplied', jobsApplied)
+            setAppliedJobs(jobsApplied);
+            setDisplayJobs(jobsApplied);
         }
-    }, [])
-
-
-    const handleJobsFilter = filter => {
-
-        if (filter === 'all') {
-            setDisplayJob(appliedJob)
-        }
-        else if (filter === 'remote') {
-            const remoteJob = appliedJob.filter(jobs => jobs.remote_or_onsite === 'Remote')
-            setDisplayJob(remoteJob)
-        }
-        else if (filter === 'onsite') {
-            console.log('onsite')
-            const onSiteJob = appliedJob.filter(job => job.remote_or_onsite === 'Onsite')
-            setDisplayJob(onSiteJob)
-        }
-    }
-
+    }, [jobs])
     return (
         <div>
             <div className="flex items-center justify-between mx-2">
